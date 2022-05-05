@@ -1,25 +1,64 @@
-import React from 'react';
-import logo from './logo.svg';
+import {FC, useEffect} from 'react';
+import {venueState, ordersState, selectedOrderState} from './states/atoms';
 import './App.css';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { Standard } from './layouts/Standard';
+import { CompleteOrderProps, VenueProps } from './types/components';
+import { fetchOrders } from './fetch/fetchOrders';
+import { indexBy } from 'rambda';
+import { NormalizedOrders } from './types/state';
+import { Route, Routes } from 'react-router-dom';
+import { Orders } from './pages/Orders';
+import { getSelectedOrder } from './states/selectors';
+import { SingleOrder, SINGLE_ORDER_ROUTE } from './pages/SingleOrder';
 
-function App() {
+const apiVenue: VenueProps = {
+  name: 'testbar1',
+  logoImageUrl: '',
+  uuid: 'testbar1',
+}
+
+const App: FC = () => {
+  const setVenue = useSetRecoilState(venueState);
+  const setOrders = useSetRecoilState(ordersState);
+  const setCurrOrder = useSetRecoilState(selectedOrderState);
+
+  useEffect(() => {
+    // Todo: login features 
+    setVenue(apiVenue); 
+  }, [setVenue]);
+
+  const venue: VenueProps = useRecoilValue(venueState);
+
+  useEffect(() => {
+    const refreshTimer = setInterval(() => {
+      fetchOrders(venue.uuid)
+      .then((orderData) => {
+        const orderList = orderData.Items;
+        const orders: NormalizedOrders = {
+          ids: orderList.map((order: any) => order.uuid),
+          byId: indexBy('uuid', orderList),
+        }
+        setOrders(orders);
+      });
+    }, 15000);
+    return () => clearInterval(refreshTimer);
+  });
+
+  let fetchedOrders: NormalizedOrders = useRecoilValue(ordersState);
+  let selected : CompleteOrderProps = useRecoilValue(getSelectedOrder);
+
+  useEffect(() => {
+    if(fetchedOrders.ids.length !== 0) {
+      setCurrOrder(fetchedOrders.ids[0]);
+    }
+  }, [fetchedOrders.ids, selected, setCurrOrder]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes >
+      <Route path="/" element={<Orders />} />
+      <Route path={SINGLE_ORDER_ROUTE} element={<SingleOrder />} />
+    </Routes>
   );
 }
 
