@@ -1,4 +1,4 @@
-import {FC, useEffect} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {venueState, ordersState, selectedOrderState} from './states/atoms';
 import './App.css';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -22,6 +22,7 @@ const App: FC = () => {
   const setVenue = useSetRecoilState(venueState);
   const setOrders = useSetRecoilState(ordersState);
   const setCurrOrder = useSetRecoilState(selectedOrderState);
+  const [olist, setolist] = useState([]);
 
   useEffect(() => {
     // Todo: login features 
@@ -34,14 +35,16 @@ const App: FC = () => {
     const refreshTimer = setInterval(() => {
       fetchOrders(venue.uuid)
       .then((orderData) => {
-        const orderList = orderData.Items;
+        const orderList = orderData.Items.map((o: any) => o.Item);
         const orders: NormalizedOrders = {
           ids: orderList.map((order: any) => order.uuid),
           byId: indexBy('uuid', orderList),
         }
         setOrders(orders);
+        setolist(orderList);
       });
-    }, 15000);
+      console.log(olist);
+    }, 3000);
     return () => clearInterval(refreshTimer);
   });
 

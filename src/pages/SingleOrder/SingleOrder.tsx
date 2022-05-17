@@ -2,6 +2,7 @@ import {FC, ReactComponentElement, ReactNode, useEffect} from 'react';
 import { useRecoilValue } from 'recoil';
 import { CompleteOrderButton } from '../../components/CompleteOrderButton/CompleteOrderButton';
 import { fetchCompleteOrder } from '../../fetch/fetchCompleteOrder';
+import { Standard } from '../../layouts/Standard';
 import { getSelectedOrder } from '../../states/selectors';
 import { CompleteOrderProps, Item } from '../../types/components';
 
@@ -44,8 +45,8 @@ export const SingleOrder: FC = () => {
       );
       const itemlist = selectedOrder.items.map((item : Item) => {
         return (
-          <tr key={item.sku}>
-            <td>{item.sku}</td>
+          <tr key={item}>
+            <td>{item}</td>
             <td></td>
           </tr>
         );
@@ -59,6 +60,6 @@ export const SingleOrder: FC = () => {
         </thead>
       );
     
-      return buildTable(selectedOrder.uuid, tableHead, itemlist, total);
+      return (<Standard body={buildTable(selectedOrder.uuid, tableHead, itemlist, total)} />);
     
 }

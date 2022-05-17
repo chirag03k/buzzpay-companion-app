@@ -1,6 +1,7 @@
-import {FC} from 'react';
+import {FC, useEffect} from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { Standard } from '../../layouts/Standard';
 import { selectedOrderState } from '../../states/atoms';
 import { getOrdersAsList } from '../../states/selectors';
 import { CompleteOrderProps } from '../../types/components';
@@ -10,9 +11,16 @@ export const ALL_ORDERS_ROUTE = "/";
 
 export const Orders: FC = () => {
 
-    const orders:CompleteOrderProps[] = useRecoilValue(getOrdersAsList);
+    const orders: CompleteOrderProps[] = useRecoilValue(getOrdersAsList);
     const setCurrOrder = useSetRecoilState(selectedOrderState);
     const navigate = useNavigate();
+
+    /* 
+    useEffect(() => {
+        console.log("logged");
+        console.log(orders[0]);
+    });
+    */
 
     const tableData = orders.map((order) => {
     if(order.uuid === null) {
@@ -36,6 +44,8 @@ export const Orders: FC = () => {
 
     return (
 
+        <Standard 
+            body = {
         <div className={`col-12`} >
             <table className="table table-hover">
                 <thead>
@@ -50,6 +60,8 @@ export const Orders: FC = () => {
                 </tbody>
             </table>
         </div>
+            }
+        />
 
     );
 }

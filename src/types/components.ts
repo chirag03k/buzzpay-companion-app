@@ -1,8 +1,4 @@
-export type Item =  {
-    sku: string,
-    price: number, // USD? 
-    
-};
+export type Item =  string;
 
 export type CompleteOrderProps = {
     uuid: string,

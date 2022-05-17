@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+body {
+  font-family: Inter !important;
+  font-weight: normal;
+}
+
+table {
+  border-spacing: 30px;
+}
+
+th {
+  text-align: left;
+  font-weight: normal;
+}
+
+.btn-show-order {
+  height: 3vh;
+  padding-top: 0.075em !important;
+  padding-bottom: 0.075em !important;
+}
