@@ -4,10 +4,6 @@ export const fetchCompleteOrder = async (orderUuid: string) => {
 
     const response = await fetch(COMPLETE_ORDER_URL, {
         method: 'PUT',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
         body: JSON.stringify({
             uuid: orderUuid,
         })

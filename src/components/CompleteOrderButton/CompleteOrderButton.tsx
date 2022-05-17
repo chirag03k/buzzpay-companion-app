@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchCompleteOrder } from "../../fetch/fetchCompleteOrder";
 import { ALL_ORDERS_ROUTE } from "../../pages/Orders/Orders";
