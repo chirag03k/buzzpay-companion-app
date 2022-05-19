@@ -1,7 +1,7 @@
 import {FC, useEffect} from 'react';
 import {venueState, ordersState, selectedOrderState} from './states/atoms';
 import './App.css';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Standard } from './layouts/Standard';
 import { CompleteOrderProps, VenueProps } from './types/components';
 import { fetchOrders } from './fetch/fetchOrders';
@@ -11,6 +11,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Orders } from './pages/Orders';
 import { getSelectedOrder } from './states/selectors';
 import { SingleOrder, SINGLE_ORDER_ROUTE } from './pages/SingleOrder';
+import { fetchCompleteOrder } from './fetch/fetchCompleteOrder';
 
 const apiVenue: VenueProps = {
   name: 'testbar1',
@@ -19,20 +20,13 @@ const apiVenue: VenueProps = {
 }
 
 const App: FC = () => {
-  const setVenue = useSetRecoilState(venueState);
+  const [venue, setVenue] = useRecoilState(venueState);
   const setOrders = useSetRecoilState(ordersState);
   const setCurrOrder = useSetRecoilState(selectedOrderState);
 
-  useEffect(() => {
-    // Todo: login features 
-    setVenue(apiVenue); 
-  }, [setVenue]);
-
-  const venue: VenueProps = useRecoilValue(venueState);
-
-  useEffect(() => {
-    const refreshTimer = setInterval(() => {
-      fetchOrders(venue.uuid)
+  // Callback for the interval
+  const fetchOrdersInterval = () => {
+    fetchOrders(venue.uuid)
       .then((orderData) => {
         const orderList = orderData.Items;
         const orders: NormalizedOrders = {
@@ -41,9 +35,23 @@ const App: FC = () => {
         }
         setOrders(orders);
       });
-    }, 15000);
-    return () => clearInterval(refreshTimer);
-  });
+  }
+
+  // On first render, set venue in state
+  useEffect(() => {
+    // Todo: login features 
+    setVenue(apiVenue); 
+  }, []);
+
+  // When the venue is set, fetch orders for that venue (on an interval)
+  useEffect(() => {
+    if (venue.uuid) {
+      // call it immediately
+      fetchOrdersInterval();
+      const refreshTimer = setInterval(fetchOrdersInterval, 15000);
+      return () => clearInterval(refreshTimer);
+    }
+  }, [venue]);
 
   let fetchedOrders: NormalizedOrders = useRecoilValue(ordersState);
   let selected : CompleteOrderProps = useRecoilValue(getSelectedOrder);
@@ -55,7 +63,7 @@ const App: FC = () => {
   }, [fetchedOrders.ids, selected, setCurrOrder]);
 
   return (
-    <Routes >
+    <Routes>
       <Route path="/" element={<Orders />} />
       <Route path={SINGLE_ORDER_ROUTE} element={<SingleOrder />} />
     </Routes>
