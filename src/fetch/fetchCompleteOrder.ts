@@ -1,8 +1,9 @@
-const COMPLETE_ORDER_URL = "https://iug5vcsbf5.execute-api.us-east-1.amazonaws.com/bar/testbar1/completeOrder"
+import { getEndpoint } from "../util/getEndpoint";
 
 export const fetchCompleteOrder = async (orderUuid: string) => {
 
-    const response = await fetch(COMPLETE_ORDER_URL, {
+    const endpoint = getEndpoint('putCompleteOrder');
+    const response = await fetch(endpoint, {
         method: 'PUT',
         body: JSON.stringify({
             uuid: orderUuid,

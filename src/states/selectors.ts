@@ -1,4 +1,3 @@
-// import { getByDisplayValue } from '@testing-library/react';
 import {selector} from 'recoil';
 import { CompleteOrderProps } from '../types/components';
 import { ordersState, selectedOrderState } from './atoms';

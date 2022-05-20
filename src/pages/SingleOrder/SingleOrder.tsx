@@ -1,6 +1,6 @@
 import {FC, ReactComponentElement, ReactNode, useEffect} from 'react';
 import { useRecoilValue } from 'recoil';
-import { CompleteOrderButton } from '../../components/CompleteOrderButton/CompleteOrderButton';
+import { CompleteOrderButton } from '../../components/CompleteOrderButton';
 import { fetchCompleteOrder } from '../../fetch/fetchCompleteOrder';
 import { Standard } from '../../layouts/Standard';
 import { getSelectedOrder } from '../../states/selectors';
