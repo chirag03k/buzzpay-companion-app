@@ -1,16 +1,22 @@
-export type Item =  string;
+export type Item = {
+  item: string;
+  price: number;
+  quantity: number;
+};
 
 export type CompleteOrderProps = {
-    uuid: string,
-    items: Item[],
-    tax: number,
-    tip: number,
-    total: number,
-    orderTime: string
+  status: string;
+  orderNumber: string;
+  items: Item[];
+  time: string;
+  tax: number;
+  serviceFee: number;
+  total: number;
+  additionalComponent: number;
 };
 
 export type VenueProps = {
-    name: string,
-    logoImageUrl: string,
-    uuid: string,
-}
+  name: string;
+  logoImageUrl: string;
+  uuid: string;
+};

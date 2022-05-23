@@ -1,13 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import {RecoilRoot} from 'recoil';
-import {BrowserRouter} from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { RecoilRoot } from "recoil";
+import { BrowserRouter } from "react-router-dom";
+//import "./index.css";
+import "./styles/index.css";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+//import "bootstrap/dist/css/bootstrap.min.css";
+//import "bootstrap/dist/js/bootstrap.bundle.min";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <RecoilRoot>
@@ -15,4 +17,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </RecoilRoot>
     </BrowserRouter>
   </React.StrictMode>
-)
+);

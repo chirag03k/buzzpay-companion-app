@@ -1,7 +1,7 @@
 module.exports = {
   plugins: {
-    'tailwindcss/nesting': {},
+    "tailwindcss/nesting": {},
     tailwindcss: {},
-    // autoprefixer: {}, // TODO: uncomment after removing all Bootstrap references
+    autoprefixer: {}, // TODO: uncomment after removing all Bootstrap references
   },
 };

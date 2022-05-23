@@ -1,10 +1,11 @@
 import { getEndpoint } from "../util/getEndpoint";
 
-export const fetchOrders = async (barId: string) => {
-    if(barId === '') return [];
+export const fetchOrders = async (venueId: string) => {
+    if(venueId === '') return [];
 
-    const endpoint = getEndpoint('getAllOrders');
-    const response = await fetch(`${endpoint}/${barId}/incompleteOrders`);
+    const findEndpoint = getEndpoint('getAllOrders');
+    const endpoint = findEndpoint(venueId);
+    const response = await fetch(endpoint);
     const itemList = await response.json();
 
     return itemList; 

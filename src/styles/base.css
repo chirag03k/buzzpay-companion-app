@@ -1,20 +1,21 @@
-:root {
-    --dolly: #FEF08A;
-    --grannysmith: #AAD689;
-    --pine: #65B68E;
-    --emerald: #36928B;
-    --paradiso: #2B6C79;
-    --bluewood: #2B6C79;
-    --outerspace: #2E3640;
-    --white: #FFFFFF;
-    --slate: #44403C;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
-    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overscroll-behavior: none;
+  @apply bg-outer-space text-xs text-white;
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
 }
 
+/*
+.btn-show-order {
+  height: 3vh;
+  padding-top: 0.075em !important;
+  padding-bottom: 0.075em !important;
+}*/

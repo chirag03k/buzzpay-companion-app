@@ -1,22 +1,25 @@
-type EndpointId = 'getAllOrders' | 'putCompleteOrder';
+type EndpointId = "getAllOrders" | "putCompleteOrder";
 
 type EndpointMap = {
   [key in EndpointId]: {
-    dev: string;
-    prod: string;
+    dev: (venueId: string) => string;
+    prod: (venueId: string) => string;
   };
 };
 
 const endpointsMap: EndpointMap = {
   getAllOrders: {
-    dev: '/api/orders/all',
-    prod: 'https://iug5vcsbf5.execute-api.us-east-1.amazonaws.com/bar',
+    dev: (venueId: string) => "/api/orders/all/{venueId}/incompleteOrders",
+    prod: (venueId: string) =>
+      `https://iug5vcsbf5.execute-api.us-east-1.amazonaws.com/bar/${venueId}/incompleteOrders`,
   },
   putCompleteOrder: {
-    dev: '/api/orders/complete',
-    prod: 'https://iug5vcsbf5.execute-api.us-east-1.amazonaws.com/bar/testbar1/completeOrder',
+    dev: (venueId: string) => "/api/orders/complete",
+    prod: (venueId: string) =>
+      `https://iug5vcsbf5.execute-api.us-east-1.amazonaws.com/bar/${venueId}/completeOrder`,
   },
 };
 
 // Pull a different endpoint depending on which environment
-export const getEndpoint = (id: EndpointId): string => endpointsMap[id][import.meta.env.DEV ? 'dev' : 'prod'];
+export const getEndpoint = (id: EndpointId): ((venueId: string) => string) =>
+  endpointsMap[id][import.meta.env.DEV ? "dev" : "prod"];
